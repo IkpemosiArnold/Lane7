@@ -93,7 +93,7 @@
         <form id="userForm" style="display: none;">
             <!-- Hidden fields -->
             <input type="hidden" id="_id" name="_id">
-            <input type="hidden" id="toolCallId" name="toolCallId">
+            <input type="hidden" id="eventId" name="eventId">
             <input type="hidden" id="venue" name="venue">
             <input type="hidden" id="currency" name="currency">
             <input type="hidden" id="note" name="note">
@@ -201,24 +201,27 @@
         
         // Function to populate form with fetched data
         function populateForm(data) {
+            // Check if data has user object
+            const user = data.user || data;
+            
             // Hidden fields
-            document.getElementById('_id').value = data._id || '';
-            document.getElementById('toolCallId').value = data.toolCallId || '';
-            document.getElementById('venue').value = data.venue || '';
-            document.getElementById('currency').value = data.currency || '';
-            document.getElementById('note').value = data.note || '';
+            document.getElementById('_id').value = user._id || '';
+            document.getElementById('eventId').value = user.eventId || '';
+            document.getElementById('venue').value = user.venue || '';
+            document.getElementById('currency').value = user.currency || '';
+            document.getElementById('note').value = user.note || '';
             
             // Visible fields
-            document.getElementById('firstName').value = data.firstName || '';
-            document.getElementById('lastName').value = data.lastName || '';
-            document.getElementById('email').value = data.email || '';
-            document.getElementById('phoneNumber').value = data.phoneNumber || '';
-            document.getElementById('startTime').value = formatDateTimeLocal(data.startTime);
-            document.getElementById('endTime').value = formatDateTimeLocal(data.endTime);
-            document.getElementById('numberOfPeople').value = data.numberOfPeople || '';
+            document.getElementById('firstName').value = user.firstName || '';
+            document.getElementById('lastName').value = user.lastName || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('phoneNumber').value = user.phoneNumber || '';
+            document.getElementById('startTime').value = formatDateTimeLocal(user.startTime);
+            document.getElementById('endTime').value = formatDateTimeLocal(user.endTime);
+            document.getElementById('numberOfPeople').value = user.numberOfPeople || '';
             
             // Activities checkboxes
-            const activities = data.activities || [];
+            const activities = user.activities || [];
             document.getElementById('bowling').checked = activities.includes('Bowling');
             document.getElementById('beerPong').checked = activities.includes('Beer Pong');
             document.getElementById('pool').checked = activities.includes('Pool');
@@ -246,6 +249,13 @@
                 const data = await response.json();
                 
                 hideElement('loading');
+                
+                // Check if user has already confirmed their details
+                if (data.result && data.result === "You've already confirmed your details") {
+                    showSuccess("You've already confirmed your details. No further action is needed.");
+                    return;
+                }
+                
                 populateForm(data);
                 showElement('userForm');
                 
@@ -262,7 +272,7 @@
             
             // Hidden fields
             formData.append('_id', document.getElementById('_id').value);
-            formData.append('toolCallId', document.getElementById('toolCallId').value);
+            formData.append('eventId', document.getElementById('eventId').value);
             formData.append('venue', document.getElementById('venue').value);
             formData.append('currency', document.getElementById('currency').value);
             formData.append('note', document.getElementById('note').value);
