@@ -137,12 +137,40 @@
                         <label for="bowling">Bowling</label>
                     </div>
                     <div class="activity-item">
+                        <input type="checkbox" id="familyBowling" name="activities" value="Family Bowling">
+                        <label for="familyBowling">Family Bowling</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="iceBreakerPackage" name="activities" value="Ice Breaker Package">
+                        <label for="iceBreakerPackage">Ice Breaker Package</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="bowlDrinkGamePackage" name="activities" value="Bowl Drink Game Package">
+                        <label for="bowlDrinkGamePackage">Bowl Drink Game Package</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="giveAllYouGotPackage" name="activities" value="Give Me All You Got Package">
+                        <label for="giveAllYouGotPackage">Give Me All You Got Package</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="pinsPuttsPackage" name="activities" value="Pins & Putts Package">
+                        <label for="pinsPuttsPackage">Pins & Putts Package</label>
+                    </div>
+                    <div class="activity-item">
                         <input type="checkbox" id="beerPong" name="activities" value="Beer Pong">
                         <label for="beerPong">Beer Pong</label>
                     </div>
                     <div class="activity-item">
-                        <input type="checkbox" id="pool" name="activities" value="Pool">
-                        <label for="pool">Pool</label>
+                        <input type="checkbox" id="playDirty" name="activities" value="Play Dirty">
+                        <label for="playDirty">Play Dirty</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="miniGolf" name="activities" value="Mini Golf">
+                        <label for="miniGolf">Mini Golf</label>
+                    </div>
+                    <div class="activity-item">
+                        <input type="checkbox" id="shuffleboard" name="activities" value="Shuffleboard">
+                        <label for="shuffleboard">Shuffleboard</label>
                     </div>
                 </div>
             </div>
@@ -223,8 +251,15 @@
             // Activities checkboxes
             const activities = user.activities || [];
             document.getElementById('bowling').checked = activities.includes('Bowling');
+            document.getElementById('familyBowling').checked = activities.includes('Family Bowling');
+            document.getElementById('iceBreakerPackage').checked = activities.includes('Ice Breaker Package');
+            document.getElementById('bowlDrinkGamePackage').checked = activities.includes('Bowl Drink Game Package');
+            document.getElementById('giveAllYouGotPackage').checked = activities.includes('Give Me All You Got Package');
+            document.getElementById('pinsPuttsPackage').checked = activities.includes('Pins & Putts Package');
             document.getElementById('beerPong').checked = activities.includes('Beer Pong');
-            document.getElementById('pool').checked = activities.includes('Pool');
+            document.getElementById('playDirty').checked = activities.includes('Play Dirty');
+            document.getElementById('miniGolf').checked = activities.includes('Mini Golf');
+            document.getElementById('shuffleboard').checked = activities.includes('Shuffleboard');
         }
         
         // Function to fetch user data on page load
@@ -289,8 +324,15 @@
             // Activities array
             const activities = [];
             if (document.getElementById('bowling').checked) activities.push('Bowling');
+            if (document.getElementById('familyBowling').checked) activities.push('Family Bowling');
+            if (document.getElementById('iceBreakerPackage').checked) activities.push('Ice Breaker Package');
+            if (document.getElementById('bowlDrinkGamePackage').checked) activities.push('Bowl Drink Game Package');
+            if (document.getElementById('giveAllYouGotPackage').checked) activities.push('Give Me All You Got Package');
+            if (document.getElementById('pinsPuttsPackage').checked) activities.push('Pins & Putts Package');
             if (document.getElementById('beerPong').checked) activities.push('Beer Pong');
-            if (document.getElementById('pool').checked) activities.push('Pool');
+            if (document.getElementById('playDirty').checked) activities.push('Play Dirty');
+            if (document.getElementById('miniGolf').checked) activities.push('Mini Golf');
+            if (document.getElementById('shuffleboard').checked) activities.push('Shuffleboard');
             formData.append('activities', JSON.stringify(activities));
             
             return formData;
