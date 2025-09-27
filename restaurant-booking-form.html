@@ -306,24 +306,28 @@
 
         // Function to populate form with fetched data
         function populateForm(data) {
+            // Handle nested structure - data might be direct or inside booking object
+            const booking = data.booking || data;
+            const customer = booking.customer || {};
+
             // Hidden fields - storing original values
-            document.getElementById('_id').value = data._id || '';
-            document.getElementById('companyBranchId').value = data.companyBranchId || '';
-            document.getElementById('eventId').value = data.eventId || '';
-            document.getElementById('bookingId').value = data.bookingId || '';
-            document.getElementById('phoneNumber').value = data.phoneNumber || '';
-            document.getElementById('time').value = data.time || '';
-            document.getElementById('status').value = data.status || '';
+            document.getElementById('_id').value = booking._id || '';
+            document.getElementById('companyBranchId').value = booking.companyBranchId || '';
+            document.getElementById('eventId').value = booking.eventId || '';
+            document.getElementById('bookingId').value = booking.bookingId || '';
+            document.getElementById('phoneNumber').value = customer.phoneNumber || booking.phoneNumber || '';
+            document.getElementById('time').value = booking.time || '';
+            document.getElementById('status').value = booking.status || '';
 
             // Editable fields
-            document.getElementById('firstName').value = data.firstName || '';
-            document.getElementById('lastName').value = data.lastName || '';
-            document.getElementById('email').value = data.email || '';
-            document.getElementById('date').value = formatDateTimeLocal(data.date);
-            document.getElementById('numberOfPeople').value = data.numberOfPeople || '';
+            document.getElementById('firstName').value = customer.firstName || booking.firstName || '';
+            document.getElementById('lastName').value = customer.lastName || booking.lastName || '';
+            document.getElementById('email').value = customer.email || booking.email || '';
+            document.getElementById('date').value = formatDateTimeLocal(booking.date);
+            document.getElementById('numberOfPeople').value = booking.numberOfPeople || '';
 
             // Load allergies
-            loadAllergies(data.allergies);
+            loadAllergies(booking.allergies);
         }
 
         // Function to fetch user data on page load
@@ -348,6 +352,12 @@
                 const data = await response.json();
 
                 hideElement('loading');
+
+                // Check if booking exists
+                if (!data.exists) {
+                    showError("No booking found for this token.");
+                    return;
+                }
 
                 // Check if user has already confirmed their details
                 if (data.result && data.result === "You've already confirmed your details") {
